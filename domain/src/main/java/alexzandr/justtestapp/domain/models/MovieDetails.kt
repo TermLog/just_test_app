@@ -26,4 +26,36 @@ data class MovieDetails(
     val video: Boolean?,
     val voteAverage: Double?,
     val voteCount: Int?,
-)
+) {
+    companion object {
+        val EMPTY by lazy {
+            MovieDetails(
+                id = null,
+                adult = null,
+                backdropPath = null,
+                belongsToCollection = null,
+                budget = null,
+                genres = null,
+                homepage = null,
+                imdbId = null,
+                originalLanguage = null,
+                originalTitle = null,
+                overview = null,
+                popularity = null,
+                posterPath = null,
+                productionCompanies = null,
+                productionCountries = null,
+                releaseDate = null,
+                revenue = null,
+                runtime = null,
+                spokenLanguages = null,
+                status = null,
+                tagline = null,
+                title = null,
+                video = null,
+                voteAverage = null,
+                voteCount = null
+            )
+        }
+    }
+}
