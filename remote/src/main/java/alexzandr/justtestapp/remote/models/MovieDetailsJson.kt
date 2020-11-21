@@ -1,4 +1,4 @@
-package alexzandr.justtestapp.data.models
+package alexzandr.justtestapp.remote.models
 
 import com.google.gson.annotations.SerializedName
 

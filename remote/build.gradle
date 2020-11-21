@@ -40,8 +40,7 @@ android {
 }
 
 dependencies {
-    api project(':domain')
-    api project(':remote')
+    implementation project(':domain')
 
     api "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 

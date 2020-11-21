@@ -1,7 +1,8 @@
 package alexzandr.justtestapp.di
 
 import alexzandr.justtestapp.JustTestApp
-import alexzandr.justtestapp.data.retrofit.di.DataModule
+import alexzandr.justtestapp.data.di.DataModule
+import alexzandr.justtestapp.remote.di.RemoteModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -12,7 +13,8 @@ import javax.inject.Singleton
 @Component(
     modules = [
         AndroidInjectionModule::class,
-        DataModule::class
+        DataModule::class,
+        RemoteModule::class
     ]
 )
 interface AppComponent : AndroidInjector<JustTestApp> {

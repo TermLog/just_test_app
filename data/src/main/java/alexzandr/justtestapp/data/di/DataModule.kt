@@ -1,10 +1,9 @@
-package alexzandr.justtestapp.data.retrofit.di
+package alexzandr.justtestapp.data.di
 
 import dagger.Module
 
 @Module(
     includes = [
-        RetrofitModule::class
     ]
 )
 class DataModule {

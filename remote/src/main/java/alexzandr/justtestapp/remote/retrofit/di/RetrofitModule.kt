@@ -1,6 +1,6 @@
-package alexzandr.justtestapp.data.retrofit.di
+package alexzandr.justtestapp.remote.retrofit.di
 
-import alexzandr.justtestapp.data.BuildConfig
+import alexzandr.justtestapp.remote.BuildConfig
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
