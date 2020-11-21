@@ -23,7 +23,7 @@ interface MoviesApi {
     ): Single<MovieDetailsJson>
 
     @GET("/search/movie")
-    fun searchMovieDetails(
+    fun searchMovies(
         @Query("api_key") apiKey: String,
         @Query("page") page: Int,
         @Query("query") queryString: String

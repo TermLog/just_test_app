@@ -34,7 +34,7 @@ android {
 }
 
 dependencies {
-    api project(':data')
+    implementation project(':remote')
 
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
