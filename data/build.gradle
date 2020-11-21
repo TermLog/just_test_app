@@ -15,6 +15,10 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
+
+        buildConfigField 'String', 'BASE_URL_V3', '"https://api.themoviedb.org/3"'
+
+        buildConfigField 'String', 'TMDB_API_KEY', '"1cc33b07c9aa5466f88834f7042c9258"'
     }
 
     buildTypes {
@@ -42,7 +46,13 @@ dependencies {
 
     api 'androidx.core:core-ktx:1.3.2'
 
-    implementation 'com.google.code.gson:gson:2.8.6'
+    api "com.squareup.retrofit2:retrofit:$retrofit_version"
+    api "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+    api "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    api "com.squareup.okhttp3:logging-interceptor:$okhttp3_version"
+    api "com.squareup.okhttp3:okhttp:$okhttp3_version"
+
+    implementation "com.google.code.gson:gson:$gson_version"
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
