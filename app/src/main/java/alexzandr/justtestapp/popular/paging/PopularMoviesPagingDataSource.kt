@@ -1,5 +1,6 @@
 package alexzandr.justtestapp.popular.paging
 
+import alexzandr.justtestapp.domain.models.ImageConfiguration
 import alexzandr.justtestapp.domain.models.Movie
 import alexzandr.justtestapp.domain.usecases.movies.GetMoviesUseCase
 import android.annotation.SuppressLint
@@ -9,7 +10,8 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
 class PopularMoviesPagingDataSource(
-    private val getMoviesUseCase: GetMoviesUseCase
+    private val getMoviesUseCase: GetMoviesUseCase,
+    private val sizeType: ImageConfiguration.SizeType
 ) : PageKeyedDataSource<Int, Movie>() {
 
     private val initialPage = 1
@@ -27,8 +29,7 @@ class PopularMoviesPagingDataSource(
         callback: LoadInitialCallback<Int, Movie>
     ) {
         var disposable: Disposable? = null
-        getMoviesUseCase
-            .execute(GetMoviesUseCase.Params(initialPage, "popularity.desc"))
+        getMoviesUseCase.execute(createUseCaseParams(initialPage))
             .doOnSubscribe {
                 disposable = it
                 disposables.add(it)
@@ -51,8 +52,7 @@ class PopularMoviesPagingDataSource(
     @SuppressLint("CheckResult")
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
         var disposable: Disposable? = null
-        getMoviesUseCase
-            .execute(GetMoviesUseCase.Params(params.key, "popularity.desc"))
+        getMoviesUseCase.execute(createUseCaseParams(params.key))
             .doOnSubscribe {
                 disposable = it
                 disposables.add(it)
@@ -72,8 +72,7 @@ class PopularMoviesPagingDataSource(
     @SuppressLint("CheckResult")
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
         var disposable: Disposable? = null
-        getMoviesUseCase
-            .execute(GetMoviesUseCase.Params(params.key, "popularity.desc"))
+        getMoviesUseCase.execute(createUseCaseParams(params.key))
             .doOnSubscribe {
                 disposable = it
                 disposables.add(it)
@@ -88,5 +87,9 @@ class PopularMoviesPagingDataSource(
                 },
                 { it.printStackTrace() }
             )
+    }
+
+    private fun createUseCaseParams(page: Int): GetMoviesUseCase.Params {
+        return GetMoviesUseCase.Params(page = page, sortBy = "popularity.desc", sizeType = sizeType)
     }
 }

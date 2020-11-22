@@ -1,5 +1,6 @@
 package alexzandr.justtestapp.details
 
+import alexzandr.justtestapp.domain.models.ImageConfiguration
 import alexzandr.justtestapp.domain.models.MovieDetails
 import alexzandr.justtestapp.domain.usecases.movies.GetMovieDetailsUseCase
 import androidx.lifecycle.LiveData
@@ -23,7 +24,8 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     fun getMovieDetails(movieId: Int) {
-        disposable = getMovieDetailsUseCase.execute(movieId)
+        disposable = getMovieDetailsUseCase
+            .execute(GetMovieDetailsUseCase.Params(movieId, ImageConfiguration.SizeType.LARGE))
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(

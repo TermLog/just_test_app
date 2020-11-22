@@ -36,4 +36,15 @@ data class Movie(
             )
         }
     }
+
+    fun updatePosterPath(
+        config: ImageConfiguration,
+        sizeType: ImageConfiguration.SizeType
+    ): Movie {
+        return posterPath
+            ?.let { config.getImageUrl(it, sizeType) }
+            ?.takeIf { it.isNotBlank() }
+            ?.let { copy(posterPath = it) }
+            ?: this
+    }
 }

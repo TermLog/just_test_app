@@ -1,6 +1,6 @@
 package alexzandr.justtestapp.domain.models
 
-class MoviesListContainer(
+data class MoviesListContainer(
     val page: Int,
     val totalResults: Int,
     val totalPages: Int,

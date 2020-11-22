@@ -1,5 +1,9 @@
 package alexzandr.justtestapp.remote.models
 
+import alexzandr.justtestapp.domain.TMDB_LARGE_IMAGE_SIZE
+import alexzandr.justtestapp.domain.TMDB_MEDIUM_IMAGE_SIZE
+import alexzandr.justtestapp.domain.TMDB_ORIGINAL_IMAGE_SIZE
+import alexzandr.justtestapp.domain.TMDB_SMALL_IMAGE_SIZE
 import alexzandr.justtestapp.domain.models.*
 import alexzandr.justtestapp.remote.models.response.MoviesListResponse
 
@@ -107,4 +111,25 @@ fun SpokenLanguageJson?.toDomain(): SpokenLanguage {
         isoCode = isoCode,
         name = name
     )
+}
+
+fun ImageConfigJson?.toDomain(): ImageConfiguration {
+    this ?: return ImageConfiguration.EMPTY
+    baseUrl?.takeIf { it.isNotBlank() } ?: return ImageConfiguration.EMPTY
+
+    val mapOfSizes = hashMapOf(ImageConfiguration.SizeType.ORIGINAL to TMDB_ORIGINAL_IMAGE_SIZE)
+
+    posterSizes?.also {
+        if (it.contains(TMDB_SMALL_IMAGE_SIZE)) {
+            mapOfSizes[ImageConfiguration.SizeType.SMALL] = TMDB_SMALL_IMAGE_SIZE
+        }
+        if (it.contains(TMDB_MEDIUM_IMAGE_SIZE)) {
+            mapOfSizes[ImageConfiguration.SizeType.MEDIUM] = TMDB_MEDIUM_IMAGE_SIZE
+        }
+        if (it.contains(TMDB_LARGE_IMAGE_SIZE)) {
+            mapOfSizes[ImageConfiguration.SizeType.LARGE] = TMDB_LARGE_IMAGE_SIZE
+        }
+    }
+
+    return ImageConfiguration(baseUrl, mapOfSizes)
 }
