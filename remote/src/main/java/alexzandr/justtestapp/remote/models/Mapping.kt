@@ -16,6 +16,7 @@ fun MoviesListResponse?.toDomain(): MoviesListContainer {
 
 fun MovieJson?.toDomain(): Movie {
     this ?: return Movie.EMPTY
+    id ?: return Movie.EMPTY
 
     return Movie(
         id = id,
@@ -37,6 +38,7 @@ fun MovieJson?.toDomain(): Movie {
 
 fun MovieDetailsJson?.toDomain(): MovieDetails {
     this ?: return MovieDetails.EMPTY
+    id ?: return MovieDetails.EMPTY
 
     return MovieDetails(
         id = id,
@@ -69,6 +71,7 @@ fun MovieDetailsJson?.toDomain(): MovieDetails {
 
 fun MovieGenreJson?.toDomain(): MovieGenre {
     this ?: return MovieGenre.EMPTY
+    id ?: return MovieGenre.EMPTY
 
     return MovieGenre(
         id = id,
@@ -78,6 +81,7 @@ fun MovieGenreJson?.toDomain(): MovieGenre {
 
 fun ProductionCompanyJson?.toDomain(): ProductionCompany {
     this ?: return ProductionCompany.EMPTY
+    id ?: return ProductionCompany.EMPTY
 
     return ProductionCompany(
         id = id,
@@ -89,6 +93,7 @@ fun ProductionCompanyJson?.toDomain(): ProductionCompany {
 
 fun ProductionCountryJson?.toDomain(): ProductionCountry {
     this ?: return ProductionCountry.EMPTY
+    isoCode ?: return ProductionCountry.EMPTY
 
     return ProductionCountry(
         isoCode = isoCode,
@@ -98,6 +103,7 @@ fun ProductionCountryJson?.toDomain(): ProductionCountry {
 
 fun SpokenLanguageJson?.toDomain(): SpokenLanguage {
     this ?: return SpokenLanguage.EMPTY
+    isoCode ?: return SpokenLanguage.EMPTY
 
     return SpokenLanguage(
         englishName = englishName,

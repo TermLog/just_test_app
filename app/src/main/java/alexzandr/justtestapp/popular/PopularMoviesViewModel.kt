@@ -1,5 +1,6 @@
 package alexzandr.justtestapp.popular
 
+import alexzandr.justtestapp.domain.MOVIES_PER_PAGE
 import alexzandr.justtestapp.domain.models.Movie
 import alexzandr.justtestapp.popular.paging.PopularMoviesDataSourceFactory
 import androidx.lifecycle.LiveData
@@ -14,7 +15,6 @@ class PopularMoviesViewModel @Inject constructor(
 ) : ViewModel() {
 
     companion object {
-        private const val LOAD_PAGE_SIZE = 20
         private const val PREFETCH_DISTANCE = 10
     }
 
@@ -22,8 +22,8 @@ class PopularMoviesViewModel @Inject constructor(
 
     init {
         val pagedConfig = PagedList.Config.Builder()
-            .setPageSize(LOAD_PAGE_SIZE)
-            .setInitialLoadSizeHint(LOAD_PAGE_SIZE)
+            .setPageSize(MOVIES_PER_PAGE)
+            .setInitialLoadSizeHint(MOVIES_PER_PAGE)
             .setPrefetchDistance(PREFETCH_DISTANCE)
             .setEnablePlaceholders(true)
             .build()

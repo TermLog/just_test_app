@@ -1,7 +1,7 @@
 package alexzandr.justtestapp.domain.models
 
 data class Movie(
-    val id: Int?,
+    val id: Int,
     val popularity: Double?,
     val voteCount: Int?,
     val video: Boolean?,
@@ -23,7 +23,7 @@ data class Movie(
                 voteCount = null,
                 video = null,
                 posterPath = null,
-                id = null,
+                id = -1,
                 adult = null,
                 backdropPath = null,
                 originalLanguage = null,

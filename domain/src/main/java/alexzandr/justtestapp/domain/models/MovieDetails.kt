@@ -1,7 +1,7 @@
 package alexzandr.justtestapp.domain.models
 
 data class MovieDetails(
-    val id: Int?,
+    val id: Int,
     val adult: Boolean?,
     val backdropPath: String?,
     val belongsToCollection: Int?,
@@ -30,7 +30,7 @@ data class MovieDetails(
     companion object {
         val EMPTY by lazy {
             MovieDetails(
-                id = null,
+                id = -1,
                 adult = null,
                 backdropPath = null,
                 belongsToCollection = null,
