@@ -5,10 +5,7 @@ import alexzandr.justtestapp.domain.repositories.IMoviesRepository
 import dagger.Module
 import dagger.Provides
 
-@Module(
-    includes = [
-    ]
-)
+@Module
 class DataModule {
 
     @Provides

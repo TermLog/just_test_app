@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -16,7 +17,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
 
-        buildConfigField 'String', 'BASE_URL_V3', '"https://api.themoviedb.org/3"'
+        buildConfigField 'String', 'BASE_URL_V3', '"https://api.themoviedb.org/3/"'
 
         buildConfigField 'String', 'TMDB_API_KEY', '"1cc33b07c9aa5466f88834f7042c9258"'
     }
@@ -49,6 +50,9 @@ dependencies {
     api "com.squareup.okhttp3:okhttp:$okhttp3_version"
 
     api "com.google.code.gson:gson:$gson_version"
+
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

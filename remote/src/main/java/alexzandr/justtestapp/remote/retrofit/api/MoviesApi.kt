@@ -9,20 +9,20 @@ import retrofit2.http.Query
 
 interface MoviesApi {
 
-    @GET("/discover/movie")
+    @GET("discover/movie")
     fun fetchMovies(
         @Query("api_key") apiKey: String,
         @Query("page") page: Int,
         @Query("sort_by") sortBy: String
     ): Single<MoviesListResponse>
 
-    @GET("/movie/{movie_id}")
+    @GET("movie/{movie_id}")
     fun fetchMovieDetails(
         @Query("api_key") apiKey: String,
         @Path("movie_id") movieId: Int
     ): Single<MovieDetailsJson>
 
-    @GET("/search/movie")
+    @GET("search/movie")
     fun searchMovies(
         @Query("api_key") apiKey: String,
         @Query("page") page: Int,
