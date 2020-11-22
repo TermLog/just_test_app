@@ -9,8 +9,6 @@ data class MovieDetailsJson(
     val adult: Boolean? = null,
     @SerializedName("backdrop_path")
     val backdropPath: String? = null,
-    @SerializedName("belongs_to_collection")
-    val belongsToCollection: Int? = null,
     @SerializedName("budget")
     val budget: Int? = null,
     @SerializedName("genres")

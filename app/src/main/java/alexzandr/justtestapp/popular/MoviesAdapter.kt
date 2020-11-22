@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 
-class MoviesAdapter : PagedListAdapter<Movie, MovieViewHolder>(DIFF_CALLBACK) {
+class MoviesAdapter(
+    private val itemClickListener: (Movie) -> Unit
+) : PagedListAdapter<Movie, MovieViewHolder>(DIFF_CALLBACK) {
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Movie>() {
@@ -24,7 +26,8 @@ class MoviesAdapter : PagedListAdapter<Movie, MovieViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         return MovieViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_movie, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_movie, parent, false),
+            itemClickListener
         )
     }
 

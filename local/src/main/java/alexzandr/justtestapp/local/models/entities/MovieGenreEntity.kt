@@ -6,6 +6,6 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "movie_genres")
 data class MovieGenreEntity(
     @PrimaryKey
-    val id: Int,
+    val genreId: Int,
     val name: String?
 )

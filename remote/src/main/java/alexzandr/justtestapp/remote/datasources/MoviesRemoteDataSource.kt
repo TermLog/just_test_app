@@ -21,7 +21,7 @@ class MoviesRemoteDataSource @Inject constructor(
     }
 
     override fun fetchMovieDetails(movieId: Int): Single<MovieDetails> {
-        return moviesApi.fetchMovieDetails(apiKey, movieId).map { it.toDomain() }
+        return moviesApi.fetchMovieDetails(movieId, apiKey).map { it.toDomain() }
     }
 
     override fun searchMovies(page: Int, queryString: String): Single<MoviesListContainer> {

@@ -1,8 +1,11 @@
 package alexzandr.justtestapp.local
 
 import alexzandr.justtestapp.local.dao.MoviesDao
+import alexzandr.justtestapp.local.models.entities.MovieDetailsEntity
 import alexzandr.justtestapp.local.models.entities.MovieEntity
 import alexzandr.justtestapp.local.models.entities.MovieGenreEntity
+import alexzandr.justtestapp.local.models.entities.ProductionCompanyEntity
+import alexzandr.justtestapp.local.models.entities.cross.MovieCrossCompanyEntity
 import alexzandr.justtestapp.local.models.entities.cross.MovieCrossGenreEntity
 import android.content.Context
 import androidx.room.Database
@@ -15,7 +18,10 @@ import androidx.room.RoomDatabase
     entities = [
         MovieEntity::class,
         MovieGenreEntity::class,
-        MovieCrossGenreEntity::class
+        MovieCrossGenreEntity::class,
+        MovieDetailsEntity::class,
+        ProductionCompanyEntity::class,
+        MovieCrossCompanyEntity::class,
     ]
 )
 abstract class AppDatabase : RoomDatabase() {

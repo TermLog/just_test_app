@@ -7,7 +7,10 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_movie.view.*
 
-class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class MovieViewHolder(
+    itemView: View,
+    private val itemClickListener: (Movie) -> Unit
+) : RecyclerView.ViewHolder(itemView) {
 
     fun bindMovie(movie: Movie?) {
         itemView.apply {
@@ -15,6 +18,7 @@ class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             clMovieDataContainer.isInvisible = movie == null
             movie?.let {
                 tvMovieTitle.text = movie.title
+                setOnClickListener { itemClickListener(movie) }
             }
         }
     }

@@ -15,4 +15,6 @@ interface IMoviesLocalDataSource {
     fun searchMovies(page: Int, queryString: String): Single<MoviesListContainer>
 
     fun saveMovies(movies: List<Movie>): Completable
+
+    fun saveMovieDetails(details: MovieDetails): Completable
 }

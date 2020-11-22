@@ -48,7 +48,7 @@ class MoviesLocalDataSource @Inject constructor(
     }
 
     override fun fetchMovieDetails(movieId: Int): Single<MovieDetails> {
-        TODO("Not yet implemented")
+        return moviesDao.getMovieDetails(movieId).map { it.toDomain() }
     }
 
     override fun searchMovies(page: Int, queryString: String): Single<MoviesListContainer> {
@@ -59,6 +59,12 @@ class MoviesLocalDataSource @Inject constructor(
         return Completable.fromAction {
             shouldCountMovies.set(true)
             moviesDao.insertMovieModels(movies)
+        }
+    }
+
+    override fun saveMovieDetails(details: MovieDetails): Completable {
+        return Completable.fromAction {
+            moviesDao.insertMovieDetailsModel(details)
         }
     }
 }

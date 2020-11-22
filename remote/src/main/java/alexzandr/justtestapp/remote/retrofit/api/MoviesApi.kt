@@ -18,8 +18,8 @@ interface MoviesApi {
 
     @GET("movie/{movie_id}")
     fun fetchMovieDetails(
-        @Query("api_key") apiKey: String,
-        @Path("movie_id") movieId: Int
+        @Path("movie_id") movieId: Int,
+        @Query("api_key") apiKey: String
     ): Single<MovieDetailsJson>
 
     @GET("search/movie")

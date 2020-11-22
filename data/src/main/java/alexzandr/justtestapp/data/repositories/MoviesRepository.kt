@@ -24,6 +24,11 @@ class MoviesRepository @Inject constructor(
 
     override fun fetchMovieDetails(movieId: Int): Single<MovieDetails> {
         return remoteDataSource.fetchMovieDetails(movieId)
+            .flatMap {
+                localDataSource
+                    .saveMovieDetails(it)
+                    .toSingleDefault(it)
+            }
     }
 
     override fun searchMovies(page: Int, queryString: String): Single<MoviesListContainer> {

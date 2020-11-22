@@ -28,7 +28,7 @@ interface PopularMoviesActivityComponent : AndroidInjector<PopularMoviesActivity
         @Binds
         @IntoMap
         @ViewModelKey(PopularMoviesViewModel::class)
-        fun bindMainViewModel(viewModel: PopularMoviesViewModel): ViewModel
+        fun bindViewModel(viewModel: PopularMoviesViewModel): ViewModel
 
     }
 }
