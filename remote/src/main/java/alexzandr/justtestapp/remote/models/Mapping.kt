@@ -1,6 +1,18 @@
 package alexzandr.justtestapp.remote.models
 
 import alexzandr.justtestapp.domain.models.*
+import alexzandr.justtestapp.remote.models.response.MoviesListResponse
+
+fun MoviesListResponse?.toDomain(): MoviesListContainer {
+    this ?: return MoviesListContainer(0, 0, 0, emptyList())
+
+    return MoviesListContainer(
+        page = page ?: 0,
+        totalResults = totalResults ?: 0,
+        totalPages = totalPages ?: 0,
+        movies = results?.map { it.toDomain() } ?: emptyList()
+    )
+}
 
 fun MovieJson?.toDomain(): Movie {
     this ?: return Movie.EMPTY

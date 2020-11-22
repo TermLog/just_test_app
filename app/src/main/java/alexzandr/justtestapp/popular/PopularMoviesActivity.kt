@@ -9,12 +9,16 @@ class PopularMoviesActivity : BaseActivity() {
 
     private val viewModel: PopularMoviesViewModel by getViewModel()
 
+    private val moviesAdapter = MoviesAdapter()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_popular_movies)
 
-        viewModel.getMoviesLiveData().observe(this) {
-            tvCount.text = "${it.size}"
+        rvMovies.adapter = moviesAdapter
+
+        viewModel.moviesLiveData.observe(this) {
+            moviesAdapter.submitList(it)
         }
     }
 }

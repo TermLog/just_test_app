@@ -1,33 +1,35 @@
 package alexzandr.justtestapp.popular
 
 import alexzandr.justtestapp.domain.models.Movie
-import alexzandr.justtestapp.domain.usecases.movies.GetMoviesUseCase
+import alexzandr.justtestapp.popular.paging.PopularMoviesDataSourceFactory
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
+import java.util.concurrent.Executors
 import javax.inject.Inject
 
 class PopularMoviesViewModel @Inject constructor(
-    private val moviesUseCase: GetMoviesUseCase
+    sourceFactory: PopularMoviesDataSourceFactory
 ) : ViewModel() {
 
-    private val moviesLiveData = MutableLiveData<List<Movie>>()
-
-    private val moviesDisposable: Disposable
-
-    init {
-        moviesDisposable = moviesUseCase
-            .execute(GetMoviesUseCase.Params(1, "popularity.desc"))
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { moviesLiveData.value = it },
-                { it.printStackTrace() }
-            )
+    companion object {
+        private const val LOAD_PAGE_SIZE = 20
+        private const val PREFETCH_DISTANCE = 10
     }
 
-    fun getMoviesLiveData(): LiveData<List<Movie>> = moviesLiveData
+    val moviesLiveData: LiveData<PagedList<Movie>>
+
+    init {
+        val pagedConfig = PagedList.Config.Builder()
+            .setPageSize(LOAD_PAGE_SIZE)
+            .setInitialLoadSizeHint(LOAD_PAGE_SIZE)
+            .setPrefetchDistance(PREFETCH_DISTANCE)
+            .setEnablePlaceholders(true)
+            .build()
+
+        moviesLiveData = LivePagedListBuilder(sourceFactory, pagedConfig)
+            .setFetchExecutor(Executors.newSingleThreadExecutor())
+            .build()
+    }
 }
