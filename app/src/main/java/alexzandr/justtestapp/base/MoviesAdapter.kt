@@ -1,4 +1,4 @@
-package alexzandr.justtestapp.popular
+package alexzandr.justtestapp.base
 
 import alexzandr.justtestapp.R
 import alexzandr.justtestapp.domain.models.Movie
