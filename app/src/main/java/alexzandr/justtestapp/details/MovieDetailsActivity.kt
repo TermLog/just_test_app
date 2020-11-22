@@ -5,6 +5,7 @@ import alexzandr.justtestapp.base.BaseActivity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_movie_details.*
 
 class MovieDetailsActivity : BaseActivity() {
@@ -23,6 +24,9 @@ class MovieDetailsActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_details)
+
+        title = ""
+
         val movieId = intent.extras?.getInt(EXTRA_KEY_MOVIE_ID, -1)
 
         movieId?.takeIf { it != -1 }?.also {
@@ -30,11 +34,17 @@ class MovieDetailsActivity : BaseActivity() {
         }
 
         viewModel.getDetailsLiveData().observe(this) {
-            tvMovieTitle.text = it.title
+
+            title = it.title
+
             tvMovieDescription.text = it.overview
-            tvMovieReleaseDate.text = it.releaseDate
-            tvMovieHomePage.text = it.homepage
-            tvMovieDuration.text = it.runtime?.let { "$it" } ?: ""
+            tvMovieReleaseDate.text = getString(R.string.release_date_template, it.releaseDate)
+            it.posterPath?.takeIf { it.isNotBlank() }?.also { imageUrl ->
+                Glide.with(tvMoviePoster)
+                    .load(imageUrl)
+                    .placeholder(R.drawable.ic_image_24)
+                    .into(tvMoviePoster)
+            }
         }
     }
 }

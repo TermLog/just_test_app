@@ -4,56 +4,54 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     tools:context=".details.MovieDetailsActivity">
 
-    <TextView
-        android:id="@+id/tvMovieTitle"
-        android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glPosterTop"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:gravity="center"
-        android:text="There should be title"
-        android:textSize="24sp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.50" />
+
+    <ImageView
+        android:id="@+id/tvMoviePoster"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginEnd="36dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="@id/glPosterTop"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvMovieReleaseDate"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:gravity="center"
-        android:text="RELEASE DATE"
-        android:textSize="20sp"
-        app:layout_constraintTop_toBottomOf="@id/tvMovieTitle" />
+        android:background="@color/grey_50"
+        android:padding="16dp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/tvMoviePoster"
+        app:layout_constraintEnd_toEndOf="@id/tvMoviePoster"
+        app:layout_constraintStart_toStartOf="@id/tvMoviePoster"
+        tools:text="Release date: 2010-10-10" />
 
-    <TextView
-        android:id="@+id/tvMovieDescription"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:gravity="center"
-        android:text="I'm movie description"
-        android:textSize="20sp"
-        app:layout_constraintTop_toBottomOf="@id/tvMovieReleaseDate" />
+        app:layout_constraintTop_toBottomOf="@id/tvMovieReleaseDate">
 
-    <TextView
-        android:id="@+id/tvMovieHomePage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:gravity="center"
-        android:text="Home page link"
-        android:textSize="20sp"
-        app:layout_constraintTop_toBottomOf="@id/tvMovieDescription" />
+        <TextView
+            android:id="@+id/tvMovieDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:padding="16dp"
+            android:textSize="20sp" />
 
-    <TextView
-        android:id="@+id/tvMovieDuration"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:gravity="center"
-        android:text="duration"
-        android:textSize="20sp"
-        app:layout_constraintTop_toBottomOf="@id/tvMovieHomePage" />
-
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

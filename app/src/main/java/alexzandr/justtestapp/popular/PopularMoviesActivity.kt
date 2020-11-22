@@ -17,6 +17,8 @@ class PopularMoviesActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_popular_movies)
 
+        setTitle(R.string.popular_title)
+
         rvMovies.adapter = moviesAdapter
 
         viewModel.moviesLiveData.observe(this) {

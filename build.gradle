@@ -10,6 +10,7 @@ buildscript {
         rx_android_version = '2.1.1'
         paging_version = "2.1.2"
         room_version = "2.2.5"
+        glide_version = "4.11.0"
     }
 
     repositories {
