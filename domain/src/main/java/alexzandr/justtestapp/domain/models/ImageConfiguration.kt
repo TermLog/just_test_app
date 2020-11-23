@@ -3,8 +3,8 @@ package alexzandr.justtestapp.domain.models
 import alexzandr.justtestapp.domain.TMDB_ORIGINAL_IMAGE_SIZE
 
 data class ImageConfiguration(
-    private val baseUrl: String,
-    private val posterSizes: Map<SizeType, String>
+    val baseUrl: String,
+    val posterSizes: Map<SizeType, String>
 ) {
 
     companion object {

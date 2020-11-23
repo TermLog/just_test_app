@@ -1,11 +1,10 @@
 package alexzandr.justtestapp.local.models.mapping
 
-import alexzandr.justtestapp.domain.models.Movie
-import alexzandr.justtestapp.domain.models.MovieDetails
-import alexzandr.justtestapp.domain.models.MovieGenre
-import alexzandr.justtestapp.domain.models.ProductionCompany
+import alexzandr.justtestapp.domain.models.*
+import alexzandr.justtestapp.domain.utils.toImageSizesMap
 import alexzandr.justtestapp.local.models.MovieDB
 import alexzandr.justtestapp.local.models.MovieDetailsDB
+import alexzandr.justtestapp.local.models.entities.ImageConfigEntity
 import alexzandr.justtestapp.local.models.entities.MovieGenreEntity
 import alexzandr.justtestapp.local.models.entities.MovieSearchEntity
 import alexzandr.justtestapp.local.models.entities.ProductionCompanyEntity
@@ -108,4 +107,12 @@ fun MovieGenreEntity.toDomain(): MovieGenre {
 
 fun ProductionCompanyEntity.toDomain(): ProductionCompany {
     return ProductionCompany(companyId, name, logoPath, originCountry)
+}
+
+fun ImageConfigEntity.toDomain(separator: String): ImageConfiguration {
+    val listOfSize = posterSizes.split(separator)
+    return ImageConfiguration(
+        baseUrl = baseUrl,
+        posterSizes = listOfSize.toImageSizesMap()
+    )
 }

@@ -1,6 +1,7 @@
 package alexzandr.justtestapp.local.dao.di
 
 import alexzandr.justtestapp.local.AppDatabase
+import alexzandr.justtestapp.local.dao.AppConfigDao
 import alexzandr.justtestapp.local.dao.MoviesDao
 import dagger.Module
 import dagger.Provides
@@ -13,5 +14,11 @@ class DaoModule {
     @Provides
     fun provideMovieDao(db: AppDatabase): MoviesDao {
         return db.getMoviesDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideAppConfigDao(db: AppDatabase): AppConfigDao {
+        return db.getAppConfigDao()
     }
 }

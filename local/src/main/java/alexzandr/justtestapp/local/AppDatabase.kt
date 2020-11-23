@@ -1,5 +1,6 @@
 package alexzandr.justtestapp.local
 
+import alexzandr.justtestapp.local.dao.AppConfigDao
 import alexzandr.justtestapp.local.dao.MoviesDao
 import alexzandr.justtestapp.local.models.entities.*
 import alexzandr.justtestapp.local.models.entities.cross.MovieCrossCompanyEntity
@@ -10,7 +11,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(
-    version = 1,
+    version = 2,
     exportSchema = false,
     entities = [
         MovieEntity::class,
@@ -19,7 +20,8 @@ import androidx.room.RoomDatabase
         MovieDetailsEntity::class,
         ProductionCompanyEntity::class,
         MovieCrossCompanyEntity::class,
-        MovieSearchEntity::class
+        MovieSearchEntity::class,
+        ImageConfigEntity::class
     ]
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -35,4 +37,6 @@ abstract class AppDatabase : RoomDatabase() {
     }
 
     abstract fun getMoviesDao(): MoviesDao
+
+    abstract fun getAppConfigDao(): AppConfigDao
 }

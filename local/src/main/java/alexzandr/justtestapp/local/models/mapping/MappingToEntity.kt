@@ -1,9 +1,6 @@
 package alexzandr.justtestapp.local.models.mapping
 
-import alexzandr.justtestapp.domain.models.Movie
-import alexzandr.justtestapp.domain.models.MovieDetails
-import alexzandr.justtestapp.domain.models.MovieGenre
-import alexzandr.justtestapp.domain.models.ProductionCompany
+import alexzandr.justtestapp.domain.models.*
 import alexzandr.justtestapp.local.models.entities.*
 import alexzandr.justtestapp.local.models.entities.cross.MovieCrossCompanyEntity
 import alexzandr.justtestapp.local.models.entities.cross.MovieCrossGenreEntity
@@ -114,4 +111,12 @@ fun MovieDetails.extractCompanyList(): List<ProductionCompanyEntity> {
 
 fun MovieDetails.extractCrossCompanyList(): List<MovieCrossCompanyEntity> {
     return productionCompanies?.map { it -> MovieCrossCompanyEntity(this.id, it.id) } ?: emptyList()
+}
+
+fun ImageConfiguration.toEntity(separator: String): ImageConfigEntity {
+    return ImageConfigEntity(
+        id = 0,
+        baseUrl = baseUrl,
+        posterSizes = posterSizes.entries.joinToString(separator = separator)
+    )
 }
