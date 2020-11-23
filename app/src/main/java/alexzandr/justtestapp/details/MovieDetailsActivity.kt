@@ -12,10 +12,12 @@ class MovieDetailsActivity : BaseActivity() {
 
     companion object {
         private const val EXTRA_KEY_MOVIE_ID = "MovieDetailsActivity.EXTRA_KEY_MOVIE_ID"
+        private const val EXTRA_KEY_IS_SEARCH = "MovieDetailsActivity.EXTRA_KEY_IS_SEARCH"
 
-        fun createIntent(ctx: Context, movieId: Int): Intent {
+        fun createIntent(ctx: Context, movieId: Int, isSearch: Boolean): Intent {
             return Intent(ctx, MovieDetailsActivity::class.java)
                 .putExtra(EXTRA_KEY_MOVIE_ID, movieId)
+                .putExtra(EXTRA_KEY_IS_SEARCH, isSearch)
         }
     }
 
@@ -28,9 +30,10 @@ class MovieDetailsActivity : BaseActivity() {
         title = ""
 
         val movieId = intent.extras?.getInt(EXTRA_KEY_MOVIE_ID, -1)
+        val isSearch = intent.extras?.getBoolean(EXTRA_KEY_IS_SEARCH, false) ?: false
 
         movieId?.takeIf { it != -1 }?.also {
-            viewModel.getMovieDetails(it)
+            viewModel.getMovieDetails(it, isSearch)
         }
 
         viewModel.getDetailsLiveData().observe(this) {

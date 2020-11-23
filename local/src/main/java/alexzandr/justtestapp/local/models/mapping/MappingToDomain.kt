@@ -7,6 +7,7 @@ import alexzandr.justtestapp.domain.models.ProductionCompany
 import alexzandr.justtestapp.local.models.MovieDB
 import alexzandr.justtestapp.local.models.MovieDetailsDB
 import alexzandr.justtestapp.local.models.entities.MovieGenreEntity
+import alexzandr.justtestapp.local.models.entities.MovieSearchEntity
 import alexzandr.justtestapp.local.models.entities.ProductionCompanyEntity
 
 fun MovieDB.toDomain(): Movie {
@@ -25,6 +26,52 @@ fun MovieDB.toDomain(): Movie {
         voteAverage = movieEntity.voteAverage,
         overview = movieEntity.overview,
         releaseDate = movieEntity.releaseDate
+    )
+}
+
+fun MovieSearchEntity.toDomain(): Movie {
+    return Movie(
+        id = movieId,
+        popularity = popularity,
+        voteCount = voteCount,
+        video = video,
+        posterPath = posterPath,
+        adult = adult,
+        backdropPath = backdropPath,
+        originalLanguage = originalLanguage,
+        originalTitle = originalTitle,
+        genreIds = emptyList(),
+        title = title,
+        voteAverage = voteAverage,
+        overview = overview,
+        releaseDate = releaseDate
+    )
+}
+
+fun MovieSearchEntity.toDomainDetails(): MovieDetails {
+    return MovieDetails(
+        id = movieId,
+        adult = adult,
+        backdropPath = backdropPath,
+        budget = null,
+        genres = emptyList(),
+        homepage = null,
+        imdbId = null,
+        originalLanguage = originalLanguage,
+        originalTitle = originalTitle,
+        overview = overview,
+        popularity = popularity,
+        posterPath = posterPath,
+        productionCompanies = emptyList(),
+        releaseDate = releaseDate,
+        revenue = null,
+        runtime = null,
+        status = null,
+        tagline = null,
+        title = title,
+        video = video,
+        voteAverage = voteAverage,
+        voteCount = voteCount
     )
 }
 

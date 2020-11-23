@@ -8,7 +8,7 @@ interface IMoviesRepository {
 
     fun fetchMovies(page: Int, sortBy: String): Single<MoviesListContainer>
 
-    fun fetchMovieDetails(movieId: Int): Single<MovieDetails>
+    fun fetchMovieDetails(movieId: Int, isSearch: Boolean): Single<MovieDetails>
 
     fun searchMovies(page: Int, queryString: String): Single<MoviesListContainer>
 }

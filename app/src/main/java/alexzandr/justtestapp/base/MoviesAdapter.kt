@@ -18,9 +18,12 @@ class MoviesAdapter(
             }
 
             override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
-                return oldItem == newItem
+                return false
             }
 
+            override fun getChangePayload(oldItem: Movie, newItem: Movie): Any? {
+                return Any()
+            }
         }
     }
 

@@ -10,6 +10,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.TextWatcher
 import androidx.core.widget.doAfterTextChanged
+import androidx.lifecycle.LiveData
+import androidx.paging.PagedList
 import kotlinx.android.synthetic.main.activity_popular_movies.rvMovies
 import kotlinx.android.synthetic.main.activity_search_movies.*
 
@@ -23,9 +25,9 @@ class SearchMoviesActivity : BaseActivity() {
 
     private val viewModel: SearchMoviesViewModel by getViewModel()
 
-    private val moviesAdapter = MoviesAdapter { showMovieDetails(it) }
-
     private var textWatcher: TextWatcher? = null
+
+    private var pagedListLiveData: LiveData<PagedList<Movie>>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,10 +35,13 @@ class SearchMoviesActivity : BaseActivity() {
 
         setTitle(R.string.search_title)
 
-        rvMovies.adapter = moviesAdapter
+        viewModel.getPagedListLiveDataContainer().observe(this) {
+            val moviesAdapter = MoviesAdapter { showMovieDetails(it) }
+            rvMovies.adapter = moviesAdapter
 
-        viewModel.moviesLiveData.observe(this) {
-            moviesAdapter.submitList(it)
+            pagedListLiveData?.removeObservers(this)
+            pagedListLiveData = it
+            pagedListLiveData?.observe(this) { moviesAdapter.submitList(it) }
         }
     }
 
@@ -53,6 +58,6 @@ class SearchMoviesActivity : BaseActivity() {
     }
 
     private fun showMovieDetails(movie: Movie) {
-        startActivity(MovieDetailsActivity.createIntent(this, movie.id))
+        startActivity(MovieDetailsActivity.createIntent(this, movie.id, true))
     }
 }

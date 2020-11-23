@@ -12,9 +12,13 @@ interface IMoviesLocalDataSource {
 
     fun fetchMovieDetails(movieId: Int): Single<MovieDetails>
 
+    fun fetchMovieSearchDetails(movieId: Int): Single<MovieDetails>
+
     fun searchMovies(page: Int, queryString: String): Single<MoviesListContainer>
 
     fun saveMovies(movies: List<Movie>): Completable
 
     fun saveMovieDetails(details: MovieDetails): Completable
+
+    fun saveMovieSearch(searchString: String, movies: List<Movie>): Completable
 }

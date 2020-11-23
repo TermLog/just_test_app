@@ -23,9 +23,11 @@ class MovieDetailsViewModel @Inject constructor(
         disposable?.dispose()
     }
 
-    fun getMovieDetails(movieId: Int) {
+    fun getMovieDetails(movieId: Int, isSearch: Boolean) {
         disposable = getMovieDetailsUseCase
-            .execute(GetMovieDetailsUseCase.Params(movieId, ImageConfiguration.SizeType.LARGE))
+            .execute(
+                GetMovieDetailsUseCase.Params(movieId, ImageConfiguration.SizeType.LARGE, isSearch)
+            )
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(

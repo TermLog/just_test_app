@@ -17,10 +17,10 @@ class GetMovieDetailsUseCase @Inject constructor(
         return configurationsRepository.fetchImageConfiguration()
             .onErrorReturnItem(ImageConfiguration.EMPTY)
             .flatMap { config ->
-                moviesRepository.fetchMovieDetails(params.movieId)
+                moviesRepository.fetchMovieDetails(params.movieId, params.isSearch)
                     .map { it.updatePosterPath(config, params.sizeType) }
             }
     }
 
-    class Params(val movieId: Int, val sizeType: ImageConfiguration.SizeType)
+    class Params(val movieId: Int, val sizeType: ImageConfiguration.SizeType, val isSearch: Boolean)
 }

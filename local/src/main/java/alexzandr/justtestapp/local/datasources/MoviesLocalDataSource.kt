@@ -7,6 +7,7 @@ import alexzandr.justtestapp.domain.models.MovieDetails
 import alexzandr.justtestapp.domain.models.MoviesListContainer
 import alexzandr.justtestapp.local.dao.MoviesDao
 import alexzandr.justtestapp.local.models.mapping.toDomain
+import alexzandr.justtestapp.local.models.mapping.toDomainDetails
 import io.reactivex.Completable
 import io.reactivex.Single
 import java.util.concurrent.atomic.AtomicBoolean
@@ -24,7 +25,13 @@ class MoviesLocalDataSource @Inject constructor(
 
     override fun fetchMovies(page: Int, sortBy: String): Single<MoviesListContainer> {
 
-        val moviesSingle = moviesDao.getMovies((page - 1) * MOVIES_PER_PAGE, MOVIES_PER_PAGE)
+        val offset = (page - 1) * MOVIES_PER_PAGE
+
+        val moviesSingle = if (offset >= 0) {
+            moviesDao.getMovies(offset, MOVIES_PER_PAGE)
+        } else {
+            Single.just(emptyList())
+        }
 
         val resultSingle = if (shouldCountMovies.getAndSet(false)) {
             moviesDao.countMovies()
@@ -51,8 +58,32 @@ class MoviesLocalDataSource @Inject constructor(
         return moviesDao.getMovieDetails(movieId).map { it.toDomain() }
     }
 
+    override fun fetchMovieSearchDetails(movieId: Int): Single<MovieDetails> {
+        return moviesDao.getMovieSearchDetails(movieId).map { it.toDomainDetails() }
+    }
+
     override fun searchMovies(page: Int, queryString: String): Single<MoviesListContainer> {
-        TODO("Not yet implemented")
+
+        val offset = (page - 1) * MOVIES_PER_PAGE
+
+        val moviesSingle = if (offset >= 0) {
+            moviesDao.getMovieSearchResult(queryString, offset, MOVIES_PER_PAGE)
+        } else {
+            Single.just(emptyList())
+        }
+
+        return moviesDao.countMovieSearch(queryString)
+            .flatMap { moviesCount ->
+                moviesSingle.map { movies ->
+                    MoviesListContainer(
+                        page = page,
+                        totalResults = moviesCount,
+                        totalPages = ceil(moviesCount.toDouble() / MOVIES_PER_PAGE).toInt(),
+                        movies = movies.map { it.toDomain() }
+                    )
+                }
+            }
+
     }
 
     override fun saveMovies(movies: List<Movie>): Completable {
@@ -65,6 +96,12 @@ class MoviesLocalDataSource @Inject constructor(
     override fun saveMovieDetails(details: MovieDetails): Completable {
         return Completable.fromAction {
             moviesDao.insertMovieDetailsModel(details)
+        }
+    }
+
+    override fun saveMovieSearch(searchString: String, movies: List<Movie>): Completable {
+        return Completable.fromAction {
+            moviesDao.insertSearchResult(searchString, movies)
         }
     }
 }

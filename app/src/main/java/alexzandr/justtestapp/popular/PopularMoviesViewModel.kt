@@ -11,7 +11,7 @@ import java.util.concurrent.Executors
 import javax.inject.Inject
 
 class PopularMoviesViewModel @Inject constructor(
-    sourceFactory: PopularMoviesDataSourceFactory
+    private val sourceFactory: PopularMoviesDataSourceFactory
 ) : ViewModel() {
 
     companion object {
@@ -31,5 +31,9 @@ class PopularMoviesViewModel @Inject constructor(
         moviesLiveData = LivePagedListBuilder(sourceFactory, pagedConfig)
             .setFetchExecutor(Executors.newSingleThreadExecutor())
             .build()
+    }
+
+    override fun onCleared() {
+        sourceFactory.close()
     }
 }

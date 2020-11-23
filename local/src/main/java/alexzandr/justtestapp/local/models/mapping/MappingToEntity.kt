@@ -4,16 +4,32 @@ import alexzandr.justtestapp.domain.models.Movie
 import alexzandr.justtestapp.domain.models.MovieDetails
 import alexzandr.justtestapp.domain.models.MovieGenre
 import alexzandr.justtestapp.domain.models.ProductionCompany
-import alexzandr.justtestapp.local.models.entities.MovieDetailsEntity
-import alexzandr.justtestapp.local.models.entities.MovieEntity
-import alexzandr.justtestapp.local.models.entities.MovieGenreEntity
-import alexzandr.justtestapp.local.models.entities.ProductionCompanyEntity
+import alexzandr.justtestapp.local.models.entities.*
 import alexzandr.justtestapp.local.models.entities.cross.MovieCrossCompanyEntity
 import alexzandr.justtestapp.local.models.entities.cross.MovieCrossGenreEntity
 
 fun Movie.toEntity(): MovieEntity {
     return MovieEntity(
         id = id,
+        popularity = popularity,
+        voteCount = voteCount,
+        video = video,
+        posterPath = posterPath,
+        adult = adult,
+        backdropPath = backdropPath,
+        originalLanguage = originalLanguage,
+        originalTitle = originalTitle,
+        title = title,
+        voteAverage = voteAverage,
+        overview = overview,
+        releaseDate = releaseDate
+    )
+}
+
+fun Movie.toEntity(searchString: String): MovieSearchEntity {
+    return MovieSearchEntity(
+        movieId = id,
+        searchString = searchString,
         popularity = popularity,
         voteCount = voteCount,
         video = video,

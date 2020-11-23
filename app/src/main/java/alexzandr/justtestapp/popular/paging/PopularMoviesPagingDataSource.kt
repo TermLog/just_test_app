@@ -1,18 +1,21 @@
 package alexzandr.justtestapp.popular.paging
 
+import alexzandr.justtestapp.base.MoviePageKeyWrapper
+import alexzandr.justtestapp.domain.MOVIES_PER_PAGE
 import alexzandr.justtestapp.domain.models.ImageConfiguration
-import alexzandr.justtestapp.domain.models.Movie
 import alexzandr.justtestapp.domain.usecases.movies.GetMoviesUseCase
+import alexzandr.justtestapp.extension.wrap
 import android.annotation.SuppressLint
 import androidx.paging.DataSource.InvalidatedCallback
-import androidx.paging.PageKeyedDataSource
+import androidx.paging.ItemKeyedDataSource
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import kotlin.math.max
 
 class PopularMoviesPagingDataSource(
     private val getMoviesUseCase: GetMoviesUseCase,
     private val sizeType: ImageConfiguration.SizeType
-) : PageKeyedDataSource<Int, Movie>() {
+) : ItemKeyedDataSource<Int, MoviePageKeyWrapper>() {
 
     private val initialPage = 1
     private var disposables: CompositeDisposable = CompositeDisposable()
@@ -26,67 +29,75 @@ class PopularMoviesPagingDataSource(
     @SuppressLint("CheckResult")
     override fun loadInitial(
         params: LoadInitialParams<Int>,
-        callback: LoadInitialCallback<Int, Movie>
+        callback: LoadInitialCallback<MoviePageKeyWrapper>
     ) {
         var disposable: Disposable? = null
-        getMoviesUseCase.execute(createUseCaseParams(initialPage))
+        val page = params.requestedInitialKey ?: initialPage
+        getMoviesUseCase.execute(createUseCaseParams(page))
             .doOnSubscribe {
                 disposable = it
                 disposables.add(it)
             }
             .doFinally { disposable?.also { disposables.remove(it) } }
             .subscribe(
-                {
+                { container ->
                     callback.onResult(
-                        it.movies,
-                        0,
-                        it.totalResults,
-                        null,
-                        if (it.movies.size < params.requestedLoadSize) null else initialPage + 1
+                        container.movies.map { it.wrap(page) },
+                        max(MOVIES_PER_PAGE * (page - 1), 0),
+                        container.totalResults
                     )
                 },
-                { it.printStackTrace() }
+                {
+                    it.printStackTrace()
+                    callback.onResult(emptyList())
+                }
             )
     }
 
     @SuppressLint("CheckResult")
-    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
+    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<MoviePageKeyWrapper>) {
         var disposable: Disposable? = null
-        getMoviesUseCase.execute(createUseCaseParams(params.key))
+        val page = params.key + 1
+        getMoviesUseCase.execute(createUseCaseParams(page))
             .doOnSubscribe {
                 disposable = it
                 disposables.add(it)
             }
             .doFinally { disposable?.also { disposables.remove(it) } }
             .subscribe(
-                {
-                    callback.onResult(
-                        it.movies,
-                        if (it.movies.size < params.requestedLoadSize) null else params.key + 1
-                    )
+                { container ->
+                    callback.onResult(container.movies.map { it.wrap(page) })
                 },
-                { it.printStackTrace() }
+                {
+                    it.printStackTrace()
+                    callback.onResult(emptyList())
+                }
             )
     }
 
     @SuppressLint("CheckResult")
-    override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
+    override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<MoviePageKeyWrapper>) {
         var disposable: Disposable? = null
-        getMoviesUseCase.execute(createUseCaseParams(params.key))
+        val page = params.key - 1
+        getMoviesUseCase.execute(createUseCaseParams(page))
             .doOnSubscribe {
                 disposable = it
                 disposables.add(it)
             }
             .doFinally { disposable?.also { disposables.remove(it) } }
             .subscribe(
-                {
-                    callback.onResult(
-                        it.movies,
-                        if (initialPage == params.key) null else params.key - 1
-                    )
+                { container ->
+                    callback.onResult(container.movies.map { it.wrap(page) })
                 },
-                { it.printStackTrace() }
+                {
+                    it.printStackTrace()
+                    callback.onResult(emptyList())
+                }
             )
+    }
+
+    override fun getKey(item: MoviePageKeyWrapper): Int {
+        return item.page
     }
 
     private fun createUseCaseParams(page: Int): GetMoviesUseCase.Params {

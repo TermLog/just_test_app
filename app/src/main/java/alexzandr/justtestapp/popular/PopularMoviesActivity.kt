@@ -46,7 +46,7 @@ class PopularMoviesActivity : BaseActivity() {
     }
 
     private fun showMovieDetails(movie: Movie) {
-        startActivity(MovieDetailsActivity.createIntent(this, movie.id))
+        startActivity(MovieDetailsActivity.createIntent(this, movie.id, false))
     }
 
     private fun showSearch() {
